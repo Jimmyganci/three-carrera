@@ -1,15 +1,25 @@
 import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
 import * as THREE from 'three';
 
-function CameraRig({ v = new THREE.Vector3() }) {
-  return useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    state.camera.position.lerp(
-      v.set(Math.sin(t / 5), 0, 10 + Math.cos(t / 1)),
+function CameraRig({ children }) {
+  const outer = useRef();
+  const inner = useRef();
+  useFrame(({ camera, clock }) => {
+    outer.current.position.y = THREE.MathUtils.lerp(
+      outer.current.position.y,
+      0.05,
       0.05
     );
-    state.camera.lookAt(0, 0, 0);
+    inner.current.rotation.y = Math.sin(clock.getElapsedTime() / 19) * Math.PI;
+    inner.current.position.z = 5 + -Math.sin(clock.getElapsedTime() / 2) * 7;
+    // inner.current.position.y = -5 + Math.sin(clock.getElapsedTime() / 2) * 2;
   });
+  return (
+    <group position={[0, -100, 0]} ref={outer}>
+      <group ref={inner}>{children}</group>
+    </group>
+  );
 }
 
 export default CameraRig;

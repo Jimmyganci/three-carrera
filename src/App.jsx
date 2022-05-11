@@ -10,6 +10,9 @@ function App() {
       <Canvas gl={false}>
         <ambientLight intensity={0.7} />
         <spotLight position={[0, 30, 0]} angle={0.3} />
+        {/* <CameraRig> */}
+        <Carrera scale={1} rotation={[0, Math.PI / 3, 0]} />
+        {/* </CameraRig> */}
         <OrbitControls
           enablePan={false}
           enableZoom={false}
@@ -19,7 +22,6 @@ function App() {
         <Environment frames={Infinity} resolution={256} preset='warehouse'>
           <MovingSpots />
         </Environment>
-        <Carrera scale={1} rotation={[0, Math.PI / 3, 0]} />
       </Canvas>
       <Loader />
     </>
